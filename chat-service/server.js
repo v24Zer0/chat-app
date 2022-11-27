@@ -1,4 +1,4 @@
 import { Server } from "socket.io";
 
-const server = new Server(3000);
+const server = new Server(8000);
 export default server;
