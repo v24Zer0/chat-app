@@ -27,9 +27,7 @@ export default function Chat() {
 
     return (
         <div>
-            <div>
-                <Link href="/login">To login page</Link>
-            </div>
+            <Link href="/login">To login page</Link>
             <MessageList messages={messages} />
             <MessageInput socket={socket} />
         </div>

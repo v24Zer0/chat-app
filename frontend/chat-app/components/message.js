@@ -4,8 +4,15 @@
 //  username
 //  displayName 
 
-export default function Message(props) {
+export default function Message({ message, displayName }) {
     return (
-        <div>{props.message}</div>
+        <div>
+            <div>
+                {displayName}
+            </div>
+            <div>
+                {message}
+            </div>
+        </div>
     );
 }

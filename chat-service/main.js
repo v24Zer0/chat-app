@@ -18,7 +18,7 @@ app.get("/", (req, res) => {
 });
 
 io.on("connection", (socket) => {
-    console.log(`User ${socket.id} connected`);
+    console.log(`Socket ${socket.id} connected`);
 
     socket.on("disconnect", () => {
         console.log(`Socket ${socket.id} disconnected`);
@@ -26,6 +26,7 @@ io.on("connection", (socket) => {
 
     socket.on("send", (message) => {
         console.log(message);
+        message.id = "messageID";
         io.emit("receive", message);
     });
 });
