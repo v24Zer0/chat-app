@@ -4,14 +4,16 @@
 //  username
 //  displayName 
 
-export default function Message({ message, displayName }) {
+import styles from '../styles/message.module.css'
+
+export default function Message({ message, username }) {
     return (
-        <div>
-            <div>
-                {displayName}
+        <div className={username === message.createdBy ? styles.message_sent : styles.message_received }>
+            <div className={styles.message_sender}>
+                User: {message.displayName}
             </div>
             <div>
-                {message}
+                {message.message}
             </div>
         </div>
     );

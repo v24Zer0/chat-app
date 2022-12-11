@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function MessageInput({ socket }) {
+export default function MessageInput({ socket, roomID }) {
     const [message, setMessage] = useState("");
 
     return (
@@ -11,8 +11,9 @@ export default function MessageInput({ socket }) {
                     
                     socket.emit("send", {
                         message: message,
-                        createdBy: "User_01",
-                        displayName: socket.id
+                        createdBy: socket.id,
+                        displayName: socket.id,
+                        roomID: roomID
                     });
                     
                     setMessage("");

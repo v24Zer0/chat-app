@@ -1,8 +1,8 @@
 import Message from "./message";
 
-export default function MessageList({ messages }) {
+export default function MessageList({ messages, username }) {
     const messageItems = messages.map((message) => (
-        <Message key={message.id} message={message.message} displayName={message.displayName} />
+        <Message key={message.id} message={message} username={username} />
     ));
 
     return (
