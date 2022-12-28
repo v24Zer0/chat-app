@@ -3,6 +3,10 @@ import http from "http";
 import { Server } from "socket.io";
 import cors from "cors";
 import crypto from "crypto";
+import MessageController from "./controller/message.controller.js";
+import RoomController from "./controller/room.controller.js";
+import MessageService from "./service/message.service.js";
+import MessageRepo from "./repo/message.repo.js";
 
 const app = express();
 const server = http.createServer(app);
@@ -12,20 +16,21 @@ const io = new Server(server, {
     }
 });
 
+const messageRepo = new MessageRepo();
+const messageService = new MessageService(messageRepo);
+const messageController = new MessageController(messageService);
+const roomController = new RoomController(null);
+
 app.use(cors());
 
 app.get("/", (req, res) => {
     res.json({message: "Hello"});
 });
 
-app.get("/messages/:roomID", (req, res) => {
-    const roomID = req.params["roomID"];
-    console.log(`roomID: ${roomID}`);
-    
-    res.json({
-        messages: []
-    });
-});
+app.get("/messages/:roomID", messageController.retrieveMessages);
+
+app.get("/rooms/:userID", roomController.retrieveRooms);
+app.post("/room", roomController.createRoom);
 
 io.on("connection", (socket) => {
     console.log(`Socket ${socket.id} connected`);
@@ -52,15 +57,12 @@ io.on("connection", (socket) => {
     });
 
     socket.on("send", (message) => {
-        console.log(message);
-
-        // ToDo: Update id generation
-        message.id = crypto.randomBytes(10).toString("hex");
-
         // ToDo: Store new message
+        messageController.createMessage(message);
+        console.log(message)
 
         // ToDo: Emit to specified room only
-        io.to(message.roomID).emit("receive", message);
+        io.to(message.room_id).emit("receive", message);
     });
 });
 

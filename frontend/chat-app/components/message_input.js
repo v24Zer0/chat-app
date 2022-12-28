@@ -13,7 +13,7 @@ export default function MessageInput({ socket, roomID }) {
                         message: message,
                         createdBy: socket.id,
                         displayName: socket.id,
-                        roomID: roomID
+                        room_id: roomID
                     });
                     
                     setMessage("");

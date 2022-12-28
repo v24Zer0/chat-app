@@ -1,27 +1,17 @@
-const rooms = [
-    {
-        id: "room_id1",
-        name: "room 1"
-    },
-    {
-        id: "room_id2",
-        name: "room 2"
-    },
-    {
-        id: "room_id3",
-        name: "room 3"
-    }
-];
-
 export default class RoomController {
-    constructor() {}
-
-    async createRoom(room) {
-        return room;
+    constructor(service) {
+        this.service = service;
     }
 
-    async retrieveRooms(userID, callback) {
-        // const data = await fetch("/rooms/userID");
-        callback(rooms);
+    retrieveRooms = (req, res) => {
+        res.json({
+            message: "Retrieve rooms"
+        });
+    }
+
+    createRoom = (req, res) => {
+        res.json({
+            message: "Create room"
+        });
     }
 }

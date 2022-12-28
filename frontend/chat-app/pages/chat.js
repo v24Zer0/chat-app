@@ -1,12 +1,13 @@
 import Link from "next/link" 
+import styles from "../styles/chat.module.css"
 import { useEffect, useState } from "react";
 import MessageList from "../components/message_list";
 import { io } from "socket.io-client";
 import MessageInput from "../components/message_input";
 import ChatUsers from "../components/chat_users";
 import ChatRooms from "../components/chat_rooms";
-import RoomController from "../../../chat-service/controller/room.controller";
-import MessageController from "../../../chat-service/controller/message.controller";
+import RoomController from "../controller/room.controller";
+import MessageController from "../controller/message.controller";
 
 const roomController = new RoomController();
 const messageController = new MessageController();
@@ -28,8 +29,8 @@ export default function Chat() {
             console.log(`Socket ${s.id} connected`);
         });
 
-        // fetch rooms
-        roomController.retrieveRooms("user_1", handleFetchRooms);
+        // fetch rooms for user
+        roomController.retrieveRooms("user1", handleFetchRooms);
         
         return () => s.disconnect();
     }, []);
@@ -37,8 +38,6 @@ export default function Chat() {
     useEffect(() => {
         if(socket && currentRoom !== "") {
             socket.on("receive", (message) => {
-                // const newMessages = getMessages();
-                // messages.push(message);
                 setMessages([...messages, message]);
             });
         }
@@ -76,9 +75,11 @@ export default function Chat() {
     return (
         <div>
             <Link href="/login">To login page</Link>
-            <MessageList messages={messages} username={socket ? socket.id : ""} />
-            {currentRoom !== "" ? <MessageInput socket={socket} roomID={currentRoom} /> : <div></div>}
             <ChatRooms rooms={rooms} updateRoom={handleRoomChange} />
+            <div className={styles.chat_body}>
+                <MessageList messages={messages} username={socket ? socket.id : ""} />
+                {currentRoom !== "" ? <MessageInput socket={socket} roomID={currentRoom} /> : <div></div>}
+            </div>
             {/* <ChatUsers users={users} /> */}
         </div>
     );
