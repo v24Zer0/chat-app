@@ -1,4 +1,5 @@
 import Room from "./room";
+import styles from "../styles/chat_rooms.module.css";
 
 export default function ChatRooms({ rooms, updateRoom }) {
     const roomList = rooms.map((room) => (
@@ -6,6 +7,6 @@ export default function ChatRooms({ rooms, updateRoom }) {
     ));
 
     return (
-        <div>{roomList}</div>
+        <div className={styles.chat_rooms}>{roomList}</div>
     );
 }

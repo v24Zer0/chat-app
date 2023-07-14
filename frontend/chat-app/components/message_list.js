@@ -1,4 +1,5 @@
 import Message from "./message";
+import styles from "../styles/message_list.module.css"
 
 export default function MessageList({ messages, username }) {
     const messageItems = messages.map((message) => (
@@ -6,6 +7,6 @@ export default function MessageList({ messages, username }) {
     ));
 
     return (
-        <div>{messageItems}</div>
+        <div className={styles.message_list}>{messageItems}</div>
     );
 }

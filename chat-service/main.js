@@ -7,6 +7,9 @@ import MessageController from "./controller/message.controller.js";
 import RoomController from "./controller/room.controller.js";
 import MessageService from "./service/message.service.js";
 import MessageRepo from "./repo/message.repo.js";
+import UserController from "./controller/user.controller.js";
+import UserRepo from "./repo/user.repo.js";
+import UserService from "./service/user.service.js";
 
 const app = express();
 const server = http.createServer(app);
@@ -19,9 +22,15 @@ const io = new Server(server, {
 const messageRepo = new MessageRepo();
 const messageService = new MessageService(messageRepo);
 const messageController = new MessageController(messageService);
+
 const roomController = new RoomController(null);
 
+const userRepo = new UserRepo();
+const userService = new UserService(userRepo);
+const userController = new UserController(userService);
+
 app.use(cors());
+app.use(express.json());
 
 app.get("/", (req, res) => {
     res.json({message: "Hello"});
@@ -31,6 +40,8 @@ app.get("/messages/:roomID", messageController.retrieveMessages);
 
 app.get("/rooms/:userID", roomController.retrieveRooms);
 app.post("/room", roomController.createRoom);
+
+app.post("/login", userController.login);
 
 io.on("connection", (socket) => {
     console.log(`Socket ${socket.id} connected`);

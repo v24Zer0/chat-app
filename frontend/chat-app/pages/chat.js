@@ -20,6 +20,7 @@ export default function Chat() {
     const [rooms, setRooms] = useState([]);
     const [currentRoom, setCurrentRoom] = useState("");
     // const [users, setUsers] = useState([]);
+    const [username, setUsername] = useState("");
 
     useEffect(() => {
         const s = io("http://localhost:8000");
@@ -29,8 +30,10 @@ export default function Chat() {
             console.log(`Socket ${s.id} connected`);
         });
 
+        setUsername(localStorage.getItem("chat-app-username"));
+
         // fetch rooms for user
-        roomController.retrieveRooms("user1", handleFetchRooms);
+        roomController.retrieveRooms(username, handleFetchRooms);
         
         return () => s.disconnect();
     }, []);
@@ -73,12 +76,12 @@ export default function Chat() {
     }
 
     return (
-        <div>
-            <Link href="/login">To login page</Link>
+        <div className={styles.chat_body}>
+            {/* <Link href="/login">To login page</Link> */}
             <ChatRooms rooms={rooms} updateRoom={handleRoomChange} />
-            <div className={styles.chat_body}>
-                <MessageList messages={messages} username={socket ? socket.id : ""} />
-                {currentRoom !== "" ? <MessageInput socket={socket} roomID={currentRoom} /> : <div></div>}
+            <div className={styles.chat_messages}>
+                <MessageList messages={messages} username={username} />
+                {currentRoom !== "" ? <MessageInput username={username} socket={socket} roomID={currentRoom} /> : <div></div>}
             </div>
             {/* <ChatUsers users={users} /> */}
         </div>

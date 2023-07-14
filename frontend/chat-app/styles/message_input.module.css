@@ -1,0 +1,14 @@
+.message_input {
+    padding: 10px;
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.form_container {
+    position: relative;
+}
+
+.text_input {
+    width: 50%;
+}

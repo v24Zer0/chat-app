@@ -1,7 +1,38 @@
 .message_sent {
-    color: blue;
+    float: right;
+    margin-left: auto;
+    width: auto;
+    min-width: 20%;
+    max-width: 50%;
 }
 
 .message_received {
-    color: bisque;
+    float: right;
+    margin-right: auto;
+    width: auto;
+    min-width: 20%;
+    max-width: 50%;
+}
+
+.message_box_sent {
+    color: white;
+    background-color: blueviolet;
+    margin: 5px;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.message_box_received {
+    color: black;
+    background-color: darkgray;
+    margin: 5px;
+    width: auto;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.message_sender {
+    font-size: small;
+    padding: 4px;
+    margin-left: 8  px;
 }
