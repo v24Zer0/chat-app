@@ -1,25 +1,32 @@
 import { Server } from "socket.io";
+import ChatService from "../service/ChatService";
 
 export default class ChatServer {
-    constructor(server, origin, chatController) {
+    constructor(server, origin, chatService) {
         this.io = new Server(server, {
             cors: {
                 origin: origin
             }
         });
 
-        this.chatController = chatController;
+        this.chatService = chatService;
     }
 
     init() {
         this.io.on("connection", (socket) => {
-            console.log(`[connection]: Socket ${socket.id} connected`);
+            this.chatService.connect(this.io, socket);
+
+            // console.log(`[connection]: Socket ${socket.id} connected`);
         
             socket.on("disconnect", () => {
-                console.log(`[disconnect]: Socket ${socket.id} disconnected`);
+                this.chatService.disconnect(this.io, socket);
+                // console.log(`[disconnect]: Socket ${socket.id} disconnected`);
             });
         
-            // Socket joins all rooms on connection
+            // Socket joins all rooms
+            socket.on("join", (data) => {
+                this.chatService.join(this.io, socket, data);
+            });
 
             socket.on("change_room", (room) => {
                 // Leave previous room and emit event for socket that left previous room
