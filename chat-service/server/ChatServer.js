@@ -1,5 +1,6 @@
 import { Server } from "socket.io";
 import ChatService from "../service/ChatService";
+import { io } from "socket.io-client";
 
 export default class ChatServer {
     constructor(server, origin, chatService) {
@@ -8,6 +9,8 @@ export default class ChatServer {
                 origin: origin
             }
         });
+
+        this.externSocket = io("external-server");
 
         this.chatService = chatService;
     }
@@ -46,5 +49,13 @@ export default class ChatServer {
                 this.io.to(message.room_id).emit("receive", message);
             });
         });
+
+        // emit message to sockets connected to room
+        this.externSocket.on("new_message", (data) => {});
+    }
+
+    close() {
+        this.externSocket.disconnect();
+        this.io.close();
     }
 }
