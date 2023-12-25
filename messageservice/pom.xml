@@ -8,8 +8,8 @@
 		<version>3.2.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.chat-app</groupId>
-	<artifactId>message-service</artifactId>
+	<groupId>com.chatapp</groupId>
+	<artifactId>messageservice</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>message-service</name>
 	<description>Message service for chat-app</description>
